@@ -8,56 +8,6 @@ AI Community: https://linux.do
 
 ---
 
-## Architecture Overview
-
-```mermaid
-flowchart TD
-    subgraph FIRST["🔧 First-Time Setup (once per machine)"]
-        A[User opens project in AI editor] --> B[AI reads README.md]
-        B --> C[AI reads RULES.md]
-        C --> D[Read precedent-auth.md]
-        D --> E[Run refresh-tool-index.ps1]
-        E --> F[Generate tool-index.md<br/>Full absolute paths + versions]
-        F --> G[Write rules to global config]
-        G --> H[✅ Setup complete]
-    end
-
-    subgraph TRIGGER["⚡ Subsequent Usage (any project, any CLI)"]
-        I[User message hits<br/>trigger keyword] --> J[Global config activates]
-        J --> K[Read routing.md<br/>3-dimension match]
-        K --> L[Check field-journal<br/>Reuse experience]
-        L --> M[Read tool-index.md<br/>Confirm tools]
-        M --> N{Tools ready?}
-        N -->|Yes| O[Enter skill]
-        N -->|No| P[Bootstrap install<br/>→ refresh index]
-        P --> O
-    end
-
-    subgraph EXEC["🎯 Execution"]
-        O --> Q[Execute task]
-        Q --> U[Task complete]
-    end
-
-    subgraph POST["📋 Post-Completion"]
-        U --> V[Report + Diagram]
-        V --> X[Write field-journal]
-        X --> Z[✅ Done]
-    end
-
-    subgraph MCP["🔌 MCP Services"]
-        MCP1["IDA Pro (72 tools)<br/>port 13337"]
-        MCP2["BurpSuite (63 tools)<br/>port 9876"]
-        MCP3["Anything Analyzer<br/>port 23816"]
-        MCP4["jshookmcp (stdio)"]
-        MCP5["Ghidra (port 8765)"]
-    end
-
-    O -.->|Call via MCP| MCP
-    H --> I
-```
-
----
-
 ## 0. First Instruction for the AI (Execute Immediately After Reading This README)
 
 > **After the AI finishes reading this file, it must automatically execute the following configuration process and then report what was changed. The user does not need to operate manually.**

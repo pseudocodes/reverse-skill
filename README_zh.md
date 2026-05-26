@@ -6,56 +6,6 @@ AI社区：https://linux.do
 
 ---
 
-## 架构总览
-
-```mermaid
-flowchart TD
-    subgraph FIRST["🔧 首次配置（每台机器一次）"]
-        A[用户在 AI 编辑器中打开项目] --> B[AI 读 README.md]
-        B --> C[AI 读 RULES.md]
-        C --> D[读 precedent-auth.md]
-        D --> E[运行 refresh-tool-index.ps1]
-        E --> F[生成 tool-index.md<br/>完整绝对路径 + 版本]
-        F --> G[写入全局配置]
-        G --> H[✅ 配置完成]
-    end
-
-    subgraph TRIGGER["⚡ 后续使用（任何项目、任何 CLI）"]
-        I[用户消息命中<br/>触发关键词] --> J[全局配置激活]
-        J --> K[读 routing.md<br/>三维匹配]
-        K --> L[查 field-journal<br/>复用经验]
-        L --> M[读 tool-index.md<br/>确认工具]
-        M --> N{工具齐全？}
-        N -->|是| O[进入 skill]
-        N -->|否| P[Bootstrap 安装<br/>→ 刷新索引]
-        P --> O
-    end
-
-    subgraph EXEC["🎯 执行"]
-        O --> Q[执行任务]
-        Q --> U[任务完成]
-    end
-
-    subgraph POST["📋 完成后"]
-        U --> V[报告 + 图表]
-        V --> X[回写 field-journal]
-        X --> Z[✅ 结束]
-    end
-
-    subgraph MCP["🔌 MCP 服务"]
-        MCP1["IDA Pro (72 工具)<br/>端口 13337"]
-        MCP2["BurpSuite (63 工具)<br/>端口 9876"]
-        MCP3["Anything Analyzer<br/>端口 23816"]
-        MCP4["jshookmcp (stdio)"]
-        MCP5["Ghidra (端口 8765)"]
-    end
-
-    O -.->|通过 MCP 调用| MCP
-    H --> I
-```
-
----
-
 ## 0. 给 AI 的第一条指令（读完 README 后立即执行）
 
 > **AI 读完本文件后，必须自动执行以下配置流程，完成后向用户报告改了什么。用户不需要手动操作。**
